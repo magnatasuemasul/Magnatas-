@@ -216,7 +216,9 @@ a { color: inherit; }
     linear-gradient(90deg, rgba(1, 8, 30, .62), rgba(1, 8, 30, .18) 32%, rgba(1, 8, 30, .18) 68%, rgba(1, 8, 30, .62)),
     linear-gradient(180deg, rgba(1, 8, 30, .25) 0%, rgba(1, 8, 30, .45) 60%, rgba(1, 8, 30, .85) 100%);
 }
-.neve { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+/* Neve: camada fixa do tamanho da tela, sobre o conteúdo de todas as seções e abaixo do menu (50)
+   e da barra do celular (40). Não recebe cliques nem toques; opacidade discreta para não atrapalhar a leitura. */
+.neve { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 30; pointer-events: none; opacity: .8; }
 /* água congelada na base do hero: recorte do gelo da base da arte oficial */
 .hero-gelo {
   position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: -1; pointer-events: none;

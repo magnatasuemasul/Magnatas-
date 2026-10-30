@@ -148,7 +148,7 @@ document.querySelectorAll('[data-ano]').forEach(el => { el.textContent = new Dat
   finais.forEach(el => observarFinais.observe(el));
 })();
 
-// ── Partículas de gelo no hero ──────────────────────────────
+// ── Neve (camada fixa sobre a página inteira) ───────────────
 (function neve() {
   const canvas = document.querySelector('.neve');
   if (!canvas) return;
@@ -158,8 +158,9 @@ document.querySelectorAll('[data-ano]').forEach(el => { el.textContent = new Dat
 
   // O bitmap do canvas precisa ter sempre o tamanho com que ele aparece na tela; se não,
   // o navegador estica a imagem e as partículas ficam ovais, grandes e fora do lugar.
-  // A altura do hero muda depois do carregamento (mascote, logo, fontes) e, no celular,
-  // com a barra de endereço; por isso o tamanho é observado no próprio canvas.
+  // A camada é fixa e tem o tamanho da tela: os flocos seguem caindo enquanto a página rola.
+  // No celular a altura muda com a barra de endereço e com o giro da tela; por isso o tamanho
+  // é observado no próprio canvas.
   function redimensionar() {
     const novaLargura = canvas.clientWidth, novaAltura = canvas.clientHeight;
     if (!novaLargura || !novaAltura) return;
