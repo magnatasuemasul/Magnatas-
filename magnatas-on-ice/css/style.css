@@ -323,19 +323,12 @@ a { color: inherit; }
   background: linear-gradient(180deg, rgba(6, 22, 66, .9), rgba(3, 10, 32, .95));
   box-shadow: 0 0 22px rgba(30, 91, 255, .18), inset 0 0 0 1px rgba(191, 230, 255, .04);
 }
-/* Painel gráfico no lugar da foto: recortes da arte oficial (mesmo arquivo do fundo) */
+/* Mídia do card: imagem da experiência (img/experiencia/), com fade azul-escuro na base para o ícone */
 .card-midia {
   position: relative; display: grid; place-items: center; width: calc(100% + 36px); aspect-ratio: 1.3; margin: 0 -18px; overflow: hidden;
-  background: var(--arte) no-repeat;
 }
-.card-midia::before { content: ''; position: absolute; inset: 0; background: inherit; filter: brightness(1.7) saturate(1.3); }
-.card-midia::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 45%, rgba(47, 123, 255, .3), transparent 70%), linear-gradient(180deg, transparent 45%, rgba(3, 10, 32, .95)); }
-.card-midia img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(1.6) saturate(1.2); }
-.card-midia-icone { position: relative; z-index: 1; width: 42%; height: auto; margin-bottom: 14%; color: var(--gelo); opacity: .55; filter: drop-shadow(0 0 14px rgba(47, 155, 255, .9)); }
-.card-exp-piscina .card-midia { background-size: 260% auto; background-position: 50% 99%; }
-.card-exp-esportes .card-midia { background-size: 300% auto; background-position: 100% 30%; }
-.card-exp-lazer .card-midia { background-size: 330% auto; background-position: 0% 28%; }
-.card-exp-resenha .card-midia img { object-position: 12% 85%; }
+.card-midia::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(3, 10, 32, .9)); }
+.card-midia img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .card-icone {
   position: relative; z-index: 1; margin-top: -36px; width: 72px; height: 72px; border-radius: 50%;
   display: grid; place-items: center; color: var(--azul-vivo);
