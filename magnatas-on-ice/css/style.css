@@ -530,7 +530,10 @@ a { color: inherit; }
    (os respingos saem à direita, fora da área do texto) */
 .info-arte .pincel-citacao { position: relative; background: none; padding: .6em 1.3em .7em; }
 .info-arte .pincel-citacao::before {
-  content: ""; position: absolute; inset: -12% -24% -16% -7%; z-index: -1; pointer-events: none;
+  /* área útil (miolo da tinta) centrada no texto: a ponta afinada e os respingos ficam à direita, fora das letras;
+     +3° compensa a leve subida da arte e deixa o eixo da tinta paralelo às linhas */
+  content: ""; position: absolute; inset: -27% -37% -21% -8%; z-index: -1; pointer-events: none;
+  transform: rotate(3deg);
   background: url("../img/pinceladas/pincelada-horizontal.webp") 0 50% / 100% 100% no-repeat;
 }
 .info-arte .pincel-citacao > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
@@ -539,9 +542,11 @@ a { color: inherit; }
    inteiro mantém a inclinação de -9° da chamada. */
 .mercado-centro .pincel-citacao { position: relative; background: none; padding: .7em 1.2em .8em; }
 .mercado-centro .pincel-citacao::before {
-  content: ""; position: absolute; left: 50%; top: 56%; z-index: -1; pointer-events: none;
+  /* o corpo mais largo da tinta fica à esquerda da arte: o centro da imagem vai para a direita
+     para o miolo da pincelada coincidir com o centro do texto */
+  content: ""; position: absolute; left: 58%; top: 50%; z-index: -1; pointer-events: none;
   width: 250%; aspect-ratio: 1224 / 670;
-  transform: translate(-50%, -50%) scaleX(.52) rotate(24deg);
+  transform: translate(-50%, -50%) scaleX(.52) rotate(20deg);
   background: url("../img/pinceladas/pincelada-diagonal.webp") center / contain no-repeat;
 }
 .mercado-centro .pincel-citacao > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
@@ -614,6 +619,8 @@ a { color: inherit; }
   .informacoes::after { inset: 45% 0 0 0; -webkit-mask-image: linear-gradient(180deg, transparent, #000 40%); mask-image: linear-gradient(180deg, transparent, #000 40%); }
   .info-arte { min-height: 260px; }
   .mercado-grid { grid-template-columns: 1fr; }
+  /* coluna única: respiro entre as regras do pregão e os respingos da pincelada da chamada */
+  .mercado-centro .pincel-citacao { margin-top: 28px; }
   .faq-lista { grid-template-columns: 1fr; }
   .final { grid-template-columns: 1fr; justify-items: center; padding-top: 48px; text-align: center; }
   .final::after { display: none; }  /* coluna única: a marca não fica sobre o gelo lateral */
