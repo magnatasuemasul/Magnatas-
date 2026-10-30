@@ -32,10 +32,10 @@
   --fonte-texto: 'Barlow', system-ui, sans-serif;
   --topbar-h: 64px;
   --barra-h: 0px;
-  --fundo-arte: #011230;       /* base amostrada da região central escura do fundo oficial */
+  --fundo-arte: #00183A;       /* base amostrada da região central escura do fundo oficial */
   --fundo-largura: 100vw;
   --pincel: url('../img/pincelada.svg');
-  --arte: url('../img/fundo-magnatas-on-ice.webp');  /* mesmo arquivo do fundo global */
+  --arte: url('../img/fundo-paraiso-tropical-congelado.webp');  /* mesmo arquivo do fundo global */
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,12 +59,12 @@ body {
 }
 
 /* ── Fundo oficial da campanha ──────────────────────────────
-   Uma única camada fixa atrás de toda a página. A arte (vertical, 724x2172) ocupa a largura
+   Uma única camada fixa atrás de toda a página. A arte (vertical, 725x2169; original em img/fundo-paraiso-tropical-congelado.png) ocupa a largura
    da tela e é percorrida de cima a baixo conforme a rolagem.
    js/main.js atualiza --fundo-progresso (0 a 1); sem JS, mostra o topo da arte. */
 body::before {
   content: ''; position: fixed; z-index: -1; pointer-events: none;
-  top: 0; left: 50%; width: var(--fundo-largura); aspect-ratio: 724 / 2172;
+  top: 0; left: 50%; width: var(--fundo-largura); aspect-ratio: 725 / 2169;
   background: var(--arte) center top / 100% auto no-repeat;
   transform: translate3d(-50%, calc(var(--fundo-progresso, 0) * min(0px, 100vh - 100%)), 0);
   will-change: transform;
@@ -218,7 +218,7 @@ a { color: inherit; }
 .hero-gelo {
   position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: -1; pointer-events: none;
   background: var(--arte) center 100% / 100% auto no-repeat;
-  opacity: .75;
+  opacity: .45;  /* a arte atual é clara na base: opacidade menor mantém a leitura dos dados do hero */
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
   mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
 }
@@ -485,7 +485,12 @@ a { color: inherit; }
 .final::before {
   /* respingos e gelo: recorte da base da arte oficial */
   content: ''; position: absolute; inset: 0; z-index: -1;
-  background: var(--arte) 50% 100% / 100% auto no-repeat; opacity: .9;
+  background: var(--arte) 50% 100% / 100% auto no-repeat; opacity: .55;  /* contraste da assinatura, redes e textos */
+}
+.final::after {
+  /* sombra sobre o gelo claro da arte, atrás da marca e das redes (lado direito) */
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, transparent 52%, rgba(2, 8, 28, .78) 72%, rgba(2, 8, 28, .78));
 }
 .final-mascote { align-self: end; justify-self: start; width: min(340px, 100%); }
 .final-centro { text-align: center; padding-bottom: 40px; }
@@ -571,6 +576,7 @@ a { color: inherit; }
   .mercado-grid { grid-template-columns: 1fr; }
   .faq-lista { grid-template-columns: 1fr; }
   .final { grid-template-columns: 1fr; justify-items: center; padding-top: 48px; text-align: center; }
+  .final::after { display: none; }  /* coluna única: a marca não fica sobre o gelo lateral */
   .final-centro, .final-marca { padding-bottom: 0; }
   .final-marca { padding-bottom: 32px; }
   .final-mascote { order: 3; justify-self: center; width: min(260px, 70vw); }
