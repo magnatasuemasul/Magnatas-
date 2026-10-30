@@ -435,20 +435,10 @@ a { color: inherit; }
 .contagem-assinatura { display: grid; justify-items: center; text-align: center; gap: 4px; }
 .contagem-data { font-size: clamp(1.1rem, 1.6vw, 1.4rem); transform: rotate(-6deg); margin-bottom: 18px; }
 
-/* Assinatura "MAGNATAS ON ICE" em pincel (contagem e chamada final) */
-.assinatura {
-  display: grid; justify-items: center; transform: rotate(-7deg) skewX(-6deg);
-  font-family: var(--fonte-titulo); font-style: italic; font-weight: 800; text-transform: uppercase;
-  line-height: .9; font-size: clamp(2.2rem, 3.6vw, 3.2rem); color: var(--branco);
-  /* brilho por filtro: text-shadow apareceria através do texto recortado pelo gradiente */
-  filter: drop-shadow(3px 4px 0 #1446D6) drop-shadow(0 0 14px rgba(47, 155, 255, .85));
-}
-.assinatura span {
-  background: linear-gradient(180deg, #FFFFFF 0%, #E4F6FF 40%, #8FD0FF 75%, #4A98FF 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  padding-right: .08em; /* evita cortar a última letra itálica */
-}
-.assinatura span + span { margin-left: .6em; }
+/* Logotipo oficial MAGNATAS ON ICE no lugar das assinaturas escritas (contagem, chamada final, barra do celular) */
+.logo-assinatura { display: block; margin: 0; line-height: 0; }
+.logo-assinatura img { display: block; width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 8px 20px rgba(0, 8, 40, .6)); }
+.contagem-logo { width: clamp(240px, 26vw, 340px); }
 
 /* Dúvidas frequentes */
 .faq-lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px clamp(16px, 2.4vw, 32px); align-items: start; }
@@ -497,7 +487,7 @@ a { color: inherit; }
 }
 .final-mascote { align-self: end; justify-self: start; width: min(340px, 100%); }
 .final-centro { text-align: center; padding-bottom: 40px; }
-.final .assinatura { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+.final-logo-ice { width: clamp(300px, 34vw, 460px); margin-inline: auto; }
 .final-frase { margin-top: 20px; font-size: clamp(1.15rem, 1.8vw, 1.6rem); transform: rotate(-6deg); }
 .final-marca { display: grid; justify-items: center; gap: 16px; padding-bottom: 40px; text-align: center; }
 .final-logo, .rodape-marca {
@@ -536,32 +526,38 @@ a { color: inherit; }
   background: url("../img/pinceladas/pincelada-horizontal.webp") 0 50% / 100% 100% no-repeat;
 }
 .hero-tag > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
-/* B. diagonal: atrás do título "Os lotes" e na arte lateral de "Informações do evento" */
-.lotes { overflow: hidden; }
-.lotes > .container { position: relative; z-index: 1; }
-.lotes::after {
-  content: ""; position: absolute; z-index: 0; pointer-events: none;
-  top: clamp(18px, 3vw, 40px); left: max(-40px, calc(50% - 580px - 110px));
-  width: clamp(240px, 28vw, 380px); aspect-ratio: 1224 / 670;
-  background: url("../img/pinceladas/pincelada-diagonal.webp") center / contain no-repeat;
-  opacity: .45;
+/* A. horizontal também na frase de "Informações do evento": a tinta acompanha o bloco de texto
+   (os respingos saem à direita, fora da área do texto) */
+.info-arte .pincel-citacao { position: relative; background: none; padding: .6em 1.3em .7em; }
+.info-arte .pincel-citacao::before {
+  content: ""; position: absolute; inset: -12% -24% -16% -7%; z-index: -1; pointer-events: none;
+  background: url("../img/pinceladas/pincelada-horizontal.webp") 0 50% / 100% 100% no-repeat;
 }
-.info-arte::before {
-  content: ""; position: absolute; z-index: -1; pointer-events: none;
-  left: 50%; top: 50%; width: min(600px, 120%); aspect-ratio: 1224 / 670;
-  transform: translate(-50%, -50%);
+.info-arte .pincel-citacao > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
+/* B. diagonal: chamada do "Mercado dos stakeholders". A tinta é girada (+24°) para ficar paralela
+   ao texto e comprimida no sentido do traço para acompanhar a largura da frase; o conjunto
+   inteiro mantém a inclinação de -9° da chamada. */
+.mercado-centro .pincel-citacao { position: relative; background: none; padding: .7em 1.2em .8em; }
+.mercado-centro .pincel-citacao::before {
+  content: ""; position: absolute; left: 50%; top: 56%; z-index: -1; pointer-events: none;
+  width: 250%; aspect-ratio: 1224 / 670;
+  transform: translate(-50%, -50%) scaleX(.52) rotate(24deg);
   background: url("../img/pinceladas/pincelada-diagonal.webp") center / contain no-repeat;
-  opacity: .55;
 }
-.info-arte { isolation: isolate; }
-/* C. explosão: atrás da assinatura e do botão de ingresso da contagem */
+.mercado-centro .pincel-citacao > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
+.mercado-centro { gap: 0; }
+.mercado-centro .coroa-solta { margin: 18px 0 14px 40%; }
+.mercado-aviso { margin-bottom: 8px; }
+/* C. explosão: fundo discreto atrás da assinatura, da data e do botão de ingresso da contagem */
 .contagem-assinatura { position: relative; isolation: isolate; }
 .contagem-assinatura::before {
   content: ""; position: absolute; z-index: -1; pointer-events: none;
-  left: 50%; top: 46%; width: min(600px, 150%); aspect-ratio: 720 / 494;
+  left: 50%; top: 52%; width: min(470px, 125%); aspect-ratio: 720 / 494;
   transform: translate(-50%, -50%);
   background: url("../img/pinceladas/explosao-tinta.webp") center / contain no-repeat;
   opacity: .5;
+  -webkit-mask-image: radial-gradient(closest-side, #000 65%, transparent);
+  mask-image: radial-gradient(closest-side, #000 65%, transparent);
 }
 
 @media (max-width: 1100px) {
@@ -639,8 +635,8 @@ a { color: inherit; }
     transition: transform .3s ease, visibility 0s linear .3s;
   }
   .barra-acao.visivel { visibility: visible; transform: none; transition: transform .3s ease, visibility 0s; }
-  .barra-texto { font-family: var(--fonte-titulo); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--branco); font-size: 1rem; }
-  .barra-texto em { color: var(--gelo); }
+  .barra-logo { width: 104px; }
+  .barra-logo img { filter: none; }
 }
 
 @media (max-width: 560px) {
@@ -671,11 +667,9 @@ a { color: inherit; }
   .contagem-num { font-size: 2.3rem; }
   .contagem-rotulo { font-size: .75rem; letter-spacing: 1px; }
   .contato-duvidas .btn { width: 100%; }
-  .barra-texto { font-size: .9rem; }
-  /* pinceladas: menores e mais discretas no celular */
-  .lotes::after { width: 240px; left: -30px; top: 30px; opacity: .65; }
-  .info-arte::before { width: 120%; opacity: .35; }
-  .contagem-assinatura::before { width: 125%; opacity: .42; }
+  .barra-logo { width: 92px; }
+  /* explosão um pouco menor no celular */
+  .contagem-assinatura::before { width: 115%; opacity: .45; }
 }
 
 @media (max-width: 380px) {

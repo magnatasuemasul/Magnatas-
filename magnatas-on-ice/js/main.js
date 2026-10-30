@@ -156,24 +156,38 @@ document.querySelectorAll('[data-ano]').forEach(el => { el.textContent = new Dat
   const celular = window.matchMedia('(max-width: 900px), (pointer: coarse)');
   let largura, altura, particulas = [], rodando = false, visivel = true, quadro, ultimo = 0, intervalo = 0;
 
+  // O bitmap do canvas precisa ter sempre o tamanho com que ele aparece na tela; se não,
+  // o navegador estica a imagem e as partículas ficam ovais, grandes e fora do lugar.
+  // A altura do hero muda depois do carregamento (mascote, logo, fontes) e, no celular,
+  // com a barra de endereço; por isso o tamanho é observado no próprio canvas.
   function redimensionar() {
-    // No celular: resolução 1x, menos partículas e 30 quadros/s.
+    const novaLargura = canvas.clientWidth, novaAltura = canvas.clientHeight;
+    if (!novaLargura || !novaAltura) return;
+    // No celular: resolução até 1,5x (nítida sem pesar), menos partículas e 30 quadros/s.
     const leve = celular.matches;
-    const dpr = leve ? 1 : Math.min(window.devicePixelRatio || 1, 2);
-    largura = canvas.clientWidth; altura = canvas.clientHeight;
-    canvas.width = largura * dpr; canvas.height = altura * dpr;
+    const dpr = Math.min(window.devicePixelRatio || 1, leve ? 1.5 : 2);
+    const mudouLargura = novaLargura !== largura;
+    if (!mudouLargura && altura) {
+      // só a altura mudou: mantém as partículas onde estavam (proporcionalmente), sem reiniciar a neve
+      for (const p of particulas) p.y *= novaAltura / altura;
+    }
+    largura = novaLargura; altura = novaAltura;
+    canvas.width = Math.round(largura * dpr); canvas.height = Math.round(altura * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     intervalo = leve ? 1000 / 30 : 0;
-    const total = Math.round(leve ? Math.min(28, largura / 18) : Math.min(110, largura / 12));
-    particulas = Array.from({ length: total }, () => nova(true));
+    if (mudouLargura || !particulas.length) {
+      const total = Math.round(leve ? Math.min(28, largura / 18) : Math.min(110, largura / 12));
+      particulas = Array.from({ length: total }, () => nova(true, leve));
+    }
   }
 
-  function nova(inicio) {
+  function nova(inicio, leve = celular.matches) {
     return {
       x: Math.random() * largura,
       y: inicio ? Math.random() * altura : -10,
-      r: Math.random() * 1.8 + 0.4,
-      vy: Math.random() * 0.5 + 0.2,
+      // no celular, sem partículas menores que ~1px (cintilam) e um pouco mais lentas
+      r: leve ? Math.random() * 1.4 + 0.8 : Math.random() * 1.8 + 0.4,
+      vy: (Math.random() * 0.5 + 0.2) * (leve ? 0.8 : 1),
       vx: Math.random() * 0.3 - 0.15,
       a: Math.random() * 0.6 + 0.2
     };
@@ -189,6 +203,8 @@ document.querySelectorAll('[data-ano]').forEach(el => { el.textContent = new Dat
     for (const p of particulas) {
       p.y += p.vy * passo; p.x += p.vx * passo;
       if (p.y > altura + 10) Object.assign(p, nova(false));
+      // o vento lateral não leva as partículas para fora da tela: reaparecem do outro lado
+      if (p.x < -5) p.x += largura + 10; else if (p.x > largura + 5) p.x -= largura + 10;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(220, 240, 255, ${p.a})`;
@@ -203,13 +219,16 @@ document.querySelectorAll('[data-ano]').forEach(el => { el.textContent = new Dat
   }
 
   redimensionar();
-  // No celular a barra de endereço muda a altura ao rolar: só recria as partículas se a largura mudar.
-  let larguraAnterior = window.innerWidth;
-  window.addEventListener('resize', () => {
-    if (celular.matches && window.innerWidth === larguraAnterior) return;
-    larguraAnterior = window.innerWidth;
-    redimensionar();
-  });
+  // Um único ajuste por quadro, mesmo com vários avisos seguidos (rolagem no celular, giro da tela).
+  let ajustePendente = false;
+  const agendarAjuste = () => {
+    if (ajustePendente) return;
+    ajustePendente = true;
+    requestAnimationFrame(() => { ajustePendente = false; redimensionar(); });
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(agendarAjuste).observe(canvas);
+  else window.addEventListener('resize', agendarAjuste);
+  window.addEventListener('orientationchange', agendarAjuste);
   document.addEventListener('visibilitychange', atualizar);
   reduzirMovimento.addEventListener('change', atualizar);
   if ('IntersectionObserver' in window) {
