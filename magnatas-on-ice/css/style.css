@@ -1,0 +1,653 @@
+/* ═══════════════════════════════════════════════════════════
+   Magnatas on Ice — landing page do evento
+   Todos os recursos usam caminhos absolutos em /magnatas-on-ice/
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Fontes (Barlow, SIL OFL — ver fonts/OFL.txt) ──────────
+   Subconjunto latin do Google Fonts, só os pesos usados.
+   font-display: swap evita texto invisível enquanto carregam. */
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-700.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 800; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-800.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: italic; font-weight: 800; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-800-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 900; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-900.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow'; font-style: normal; font-weight: 400; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-400.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow'; font-style: normal; font-weight: 600; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-600.woff2') format('woff2'); }
+
+:root {
+  --azul: #1E5BFF;
+  --azul-claro: #3D8BFF;
+  --azul-vivo: #2F9BFF;      /* subtítulos e destaques azuis da arte */
+  --gelo: #BFE6FF;
+  --gelo-claro: #E8F6FF;
+  --fundo: #02040E;
+  --painel: rgba(3, 10, 32, 0.78);     /* faixas das seções sobre o fundo oficial */
+  --painel-forte: rgba(4, 13, 40, 0.92);
+  --branco: #FFFFFF;
+  --texto: rgba(255, 255, 255, 0.82);
+  --texto-suave: rgba(255, 255, 255, 0.58);
+  --borda: rgba(79, 160, 255, 0.22);
+  --borda-forte: rgba(79, 160, 255, 0.5);
+  --brilho: 0 0 18px rgba(47, 123, 255, 0.55), 0 0 44px rgba(47, 123, 255, 0.22);
+  --fonte-titulo: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --fonte-texto: 'Barlow', system-ui, sans-serif;
+  --topbar-h: 64px;
+  --barra-h: 0px;
+  --fundo-arte: #011230;       /* base amostrada da região central escura do fundo oficial */
+  --fundo-largura: 100vw;
+  --pincel: url('/magnatas-on-ice/img/pincelada.svg');
+  --arte: url('/magnatas-on-ice/img/fundo-magnatas-on-ice.webp');  /* mesmo arquivo do fundo global */
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* scroll-padding-bottom: elementos focados pelo teclado não ficam sob a barra fixa do celular */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--topbar-h) + 12px);
+  scroll-padding-bottom: calc(var(--barra-h) + 12px);
+}
+
+body {
+  background: var(--fundo-arte);
+  color: var(--texto);
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Fundo oficial da campanha ──────────────────────────────
+   Uma única camada fixa atrás de toda a página. A arte (vertical, 724x2172) ocupa a largura
+   da tela e é percorrida de cima a baixo conforme a rolagem.
+   js/main.js atualiza --fundo-progresso (0 a 1); sem JS, mostra o topo da arte. */
+body::before {
+  content: ''; position: fixed; z-index: -1; pointer-events: none;
+  top: 0; left: 50%; width: var(--fundo-largura); aspect-ratio: 724 / 2172;
+  background: var(--arte) center top / 100% auto no-repeat;
+  transform: translate3d(-50%, calc(var(--fundo-progresso, 0) * min(0px, 100vh - 100%)), 0);
+  will-change: transform;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.container { width: min(1160px, 100% - 48px); margin-inline: auto; }
+
+.skip-link {
+  position: absolute; left: 16px; top: -60px; z-index: 100;
+  background: var(--azul); color: var(--branco); padding: 10px 16px;
+  font-weight: 600; text-decoration: none; transition: top .2s;
+}
+.skip-link:focus { top: 12px; }
+
+:focus-visible { outline: 2px solid var(--gelo); outline-offset: 3px; }
+
+/* ── Tipografia de apoio ────────────────────────────────── */
+/* Letra "manuscrita" das frases soltas da arte: Barlow Condensed itálica, inclinada */
+.manuscrito {
+  font-family: var(--fonte-titulo); font-style: italic; font-weight: 800;
+  text-transform: uppercase; line-height: 1.02; letter-spacing: .5px;
+  color: var(--branco); transform: rotate(-7deg);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .55);
+}
+.manuscrito strong, .manuscrito u { color: var(--azul-vivo); font-weight: 800; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+
+/* Faixa de pincel azul atrás de frases de destaque */
+.pincel { display: inline-block; background: var(--pincel) center / 100% 100% no-repeat; padding: .55em 1.5em .6em; filter: drop-shadow(0 6px 18px rgba(0, 20, 80, .55)); }
+.pincel > span {
+  display: block; font-family: var(--fonte-titulo); font-style: italic; font-weight: 800;
+  text-transform: uppercase; line-height: 1.05; color: var(--branco); letter-spacing: .5px;
+}
+.pincel u { text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+.secao-tag {
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: .95rem;
+  letter-spacing: 6px; text-transform: uppercase; color: var(--azul-vivo); margin-bottom: 10px;
+}
+.secao-titulo {
+  font-family: var(--fonte-titulo); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(2.3rem, 4.4vw, 3.6rem); line-height: .95; color: var(--branco);
+  margin-bottom: 22px;
+}
+.secao-titulo-sm { font-size: clamp(1.9rem, 3vw, 2.6rem); margin-bottom: 4px; }
+.secao-sub {
+  font-family: var(--fonte-titulo); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem); letter-spacing: 1px; color: var(--azul-vivo);
+  margin-bottom: 28px;
+}
+.secao-sub-sm { font-family: var(--fonte-texto); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 1rem; margin-bottom: 24px; }
+.destaque { color: var(--azul-vivo); text-shadow: 0 0 24px rgba(47, 123, 255, .5); }
+.coroa-solta { color: var(--gelo); filter: drop-shadow(0 0 10px rgba(47, 155, 255, .7)); }
+
+/* ── Botões ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 12px 30px; border-radius: 999px;
+  font-family: var(--fonte-titulo); font-size: 1rem; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; text-align: center;
+  border: 1.5px solid transparent; cursor: pointer;
+  transition: background .25s, color .25s, box-shadow .25s, transform .25s, border-color .25s;
+}
+.btn-primario { background: linear-gradient(180deg, #3F8CFF, #1D55F5); color: var(--branco); box-shadow: var(--brilho); }
+.btn-primario:hover { background: linear-gradient(180deg, #5A9DFF, #2A63FF); transform: translateY(-2px); }
+.btn-contorno { background: rgba(10, 30, 80, .45); color: var(--branco); border-color: var(--azul-claro); box-shadow: 0 0 14px rgba(47, 123, 255, .25); }
+.btn-contorno:hover { background: rgba(30, 91, 255, .25); border-color: var(--gelo); }
+.btn-sm { min-height: 44px; padding: 8px 22px; font-size: .9rem; }
+.btn svg { flex-shrink: 0; }
+
+/* Ingressos sem link confirmado: texto informativo, não um botão */
+.ingressos-status {
+  display: flex; align-items: center; gap: 10px; margin-top: 18px;
+  font-family: var(--fonte-titulo); font-weight: 700; font-size: .95rem;
+  letter-spacing: 2.5px; text-transform: uppercase; color: var(--texto);
+}
+.selo {
+  font-family: var(--fonte-texto); font-size: .75rem; font-weight: 600; line-height: 1.4;
+  letter-spacing: 1.5px; padding: 3px 9px; border-radius: 2px;
+  background: rgba(232, 246, 255, .14); color: var(--gelo-claro); border: 1px solid rgba(191, 230, 255, .28);
+}
+
+/* ── Menu ───────────────────────────────────────────────── */
+.topbar {
+  position: fixed; inset: 0 0 auto; z-index: 50; height: var(--topbar-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 0 clamp(16px, 4vw, 56px);
+  background: rgba(2, 6, 20, .86); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--borda);
+  transition: background .3s;
+}
+.topbar.rolou { background: rgba(2, 5, 16, .95); }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+.brand img { width: 40px; height: 40px; }
+.brand-text {
+  font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.15rem;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--branco);
+}
+.brand-text em { font-style: normal; color: var(--azul-vivo); }
+
+.nav { display: flex; align-items: center; gap: clamp(18px, 2.6vw, 40px); }
+.nav a {
+  font-family: var(--fonte-titulo); font-size: .88rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
+  color: var(--texto); position: relative; padding: 6px 0; transition: color .2s;
+}
+.nav a::after {
+  content: ''; position: absolute; left: 0; right: 100%; bottom: -2px; height: 2px;
+  background: var(--azul-vivo); box-shadow: 0 0 8px var(--azul-vivo); transition: right .25s;
+}
+.nav a:hover, .nav a:focus-visible { color: var(--branco); }
+.nav a:hover::after { right: 0; }
+.nav .nav-extra { display: none; }  /* "Dúvidas" só no menu do celular, como na arte */
+
+.topbar-acoes { display: flex; align-items: center; gap: 12px; }
+.topbar-cta { padding-inline: 20px; font-size: .82rem; }
+
+.menu-toggle {
+  display: none; width: 48px; height: 48px; background: none; border: 0; cursor: pointer;
+  flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+}
+.menu-toggle span { width: 24px; height: 2px; background: var(--branco); transition: transform .3s, opacity .3s; }
+.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+  position: relative; min-height: 100vh; min-height: 100svh;
+  padding: calc(var(--topbar-h) + 18px) clamp(20px, 4vw, 64px) 44px;
+  overflow: hidden; isolation: isolate;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.hero-fundo {
+  position: absolute; inset: 0; z-index: -3;
+  background:
+    /* elipse larga que esmaece até a borda: sem faixas laterais visíveis no celular */
+    radial-gradient(ellipse max(60%, 520px) 50% at 50% 38%, rgba(47, 123, 255, .26), rgba(47, 123, 255, .08) 55%, transparent),
+    linear-gradient(180deg, rgba(1, 6, 22, .1) 0%, rgba(1, 6, 22, .35) 70%, rgba(1, 6, 22, .7) 100%);
+}
+.neve { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+/* água congelada na base do hero: recorte do gelo da base da arte oficial */
+.hero-gelo {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: -1; pointer-events: none;
+  background: var(--arte) center 100% / 100% auto no-repeat;
+  opacity: .75;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
+}
+
+/* --m: largura do mascote. Limitada pela largura e pela altura da tela (proporção 1178:1335),
+   para o título e o botão aparecerem na primeira tela sem cortar a cabeça. */
+.hero-palco {
+  --m: clamp(240px, min(34vw, (100svh - 620px) * 1.25), 480px);
+  position: relative; width: min(1320px, 100%); margin-inline: auto;
+  display: grid; align-items: center; column-gap: clamp(16px, 2.5vw, 40px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 680px) minmax(0, 1fr);
+  grid-template-areas:
+    "slogan mascote roupa"
+    "dados  centro  roupa";
+}
+
+/* Mascote oficial: estático (sem animação, parallax, fixed ou sticky); sai de cena com o hero. */
+.hero-mascote { grid-area: mascote; justify-self: center; align-self: end; width: var(--m); position: relative; pointer-events: none; }
+.hero-mascote::before {
+  content: ''; position: absolute; inset: 6% 2% 18%; border-radius: 50%; z-index: -1;
+  background: radial-gradient(closest-side, rgba(47, 123, 255, .38), rgba(47, 123, 255, .1) 60%, transparent);
+}
+.hero-mascote img, .final-mascote img {
+  width: 100%; height: auto;
+  filter: drop-shadow(0 0 26px rgba(47, 123, 255, .4));
+  -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 98%);
+  mask-image: linear-gradient(180deg, #000 72%, transparent 98%);
+}
+
+.hero-tag {
+  grid-area: mascote; justify-self: center; align-self: start; z-index: 2;
+  /* ancorada à esquerda do mascote, na altura do ombro, sem cobrir a cabeça */
+  margin-top: calc(var(--m) * .2); transform: translateX(calc(var(--m) * -.6)) rotate(-8deg);
+  font-size: clamp(.9rem, 1.3vw, 1.2rem);
+}
+
+.hero-centro { grid-area: centro; position: relative; z-index: 1; text-align: center; margin-top: calc(var(--m) * -.5); }
+
+/* Logotipo oficial em gelo (PNG transparente, com margem própria de brilho).
+   Largura igual ao "sizes" do index.html; margem negativa compensa o respiro transparente da arte. */
+.hero-titulo { width: min(100%, 46vw, 680px, 100svh - 300px); margin: -2% auto -3%; }
+.hero-titulo img { width: 100%; height: auto; filter: drop-shadow(0 10px 24px rgba(0, 8, 40, .6)); }
+
+.hero-texto { max-width: 520px; margin: 18px auto 0; color: var(--branco); font-size: clamp(.98rem, 1.15vw, 1.08rem); text-shadow: 0 2px 10px rgba(0, 0, 0, .7); }
+.hero-acoes { display: flex; justify-content: center; margin-top: 22px; }
+.hero-nota { margin-top: 12px; font-size: .88rem; color: var(--texto-suave); }
+.hero-nota a { color: var(--gelo); font-weight: 600; text-underline-offset: 3px; }
+
+.hero-slogan { grid-area: slogan; justify-self: start; font-size: clamp(1.5rem, 2.4vw, 2.3rem); }
+.hero-slogan strong { display: inline-block; font-size: 1.12em; border-bottom: 4px solid var(--azul-vivo); box-shadow: 0 6px 12px -6px var(--azul-vivo); line-height: .95; }
+
+.hero-dados { grid-area: dados; align-self: end; justify-self: start; list-style: none; display: grid; gap: 18px; }
+.hero-dados li { display: flex; align-items: center; gap: 14px; }
+.hero-dados { text-shadow: 0 2px 10px rgba(0, 4, 20, .85); }
+.hero-dados-icone { flex-shrink: 0; width: 52px; height: 52px; color: #5CB4FF; filter: drop-shadow(0 0 8px rgba(47, 155, 255, .7)) drop-shadow(0 2px 6px rgba(0, 4, 20, .8)); }
+.hero-dados strong { display: block; font-family: var(--fonte-titulo); font-weight: 800; text-transform: uppercase; color: var(--branco); font-size: 1.3rem; line-height: 1.02; }
+.hero-data { font-size: 1.7rem !important; }
+.hero-dia { display: block; margin-top: 4px; font-family: var(--fonte-titulo); font-weight: 700; text-transform: uppercase; font-size: .88rem; letter-spacing: 1px; color: var(--texto); }
+.hero-dia em { font-style: normal; color: #5CB4FF; }
+
+.hero-roupa { grid-area: roupa; align-self: end; justify-self: end; font-size: clamp(1.25rem, 1.8vw, 1.75rem); text-align: center; margin-bottom: 18px; }
+.hero-roupa svg { display: block; margin: 10px auto 0; color: var(--gelo); filter: drop-shadow(0 0 10px rgba(47, 155, 255, .7)); }
+
+/* ── Seções (faixas sobre o fundo oficial) ──────────────── */
+.secao { position: relative; padding: clamp(56px, 7vw, 92px) 0; background: var(--painel); border-top: 1px solid var(--borda); }
+.secao::before {
+  /* fio de luz no topo de cada faixa */
+  content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 160, 255, .7), transparent);
+}
+
+/* O primeiro capítulo */
+.capitulo-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+.capitulo-texto > p:not(.secao-tag) { max-width: 520px; margin-top: 14px; color: var(--texto); }
+.capitulo-texto strong { color: var(--branco); }
+.capitulo-texto > p.capitulo-destaque { color: var(--azul-vivo); font-weight: 600; }
+.capitulo-texto > p.capitulo-assinatura { margin-top: 48px; color: var(--branco); font-size: clamp(1.35rem, 2.2vw, 1.85rem); transform: rotate(-5deg); transform-origin: left; }
+
+.capitulo-fotos { position: relative; aspect-ratio: 1.15; max-width: 560px; justify-self: center; width: 100%; }
+.polaroid {
+  position: absolute; background: #F4F8FF; padding: 9px 9px 9px; box-shadow: 0 18px 40px rgba(0, 0, 0, .55), 0 0 24px rgba(47, 123, 255, .2);
+}
+.polaroid img { width: 100%; height: 100%; object-fit: cover; filter: brightness(1.55) saturate(1.2); }
+.polaroid-1 { left: 2%; top: 4%; width: 74%; aspect-ratio: 1.45; transform: rotate(-4deg); }
+.polaroid-1 img { object-position: 30% 30%; }
+.polaroid-2 { left: 8%; bottom: 3%; width: 44%; aspect-ratio: 1.25; transform: rotate(3deg); background: #F4F8FF; }
+.polaroid-2 img { object-fit: contain; background: radial-gradient(circle, #123B9B, #04103A 75%); padding: 6%; }
+.polaroid-3 { right: 0; bottom: 0; width: 44%; aspect-ratio: .95; transform: rotate(5deg); }
+.polaroid-3 img { object-fit: contain; padding: 8%; background: var(--arte) 50% 100% / 320% auto no-repeat, #04103A; filter: none; }
+.capitulo-selo { position: absolute; right: 0; top: 0; font-size: clamp(1.1rem, 1.6vw, 1.45rem); text-align: center; }
+.capitulo-selo svg { display: block; margin: 6px auto 0; color: var(--gelo); }
+
+/* A experiência */
+.cards-experiencia { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.8vw, 24px); }
+.card-exp {
+  position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 0 18px 26px; border: 1px solid var(--borda-forte); border-radius: 10px; overflow: hidden;
+  background: linear-gradient(180deg, rgba(6, 22, 66, .9), rgba(3, 10, 32, .95));
+  box-shadow: 0 0 22px rgba(30, 91, 255, .18), inset 0 0 0 1px rgba(191, 230, 255, .04);
+}
+/* Painel gráfico no lugar da foto: recortes da arte oficial (mesmo arquivo do fundo) */
+.card-midia {
+  position: relative; display: grid; place-items: center; width: calc(100% + 36px); aspect-ratio: 1.3; margin: 0 -18px; overflow: hidden;
+  background: var(--arte) no-repeat;
+}
+.card-midia::before { content: ''; position: absolute; inset: 0; background: inherit; filter: brightness(1.7) saturate(1.3); }
+.card-midia::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 45%, rgba(47, 123, 255, .3), transparent 70%), linear-gradient(180deg, transparent 45%, rgba(3, 10, 32, .95)); }
+.card-midia img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(1.6) saturate(1.2); }
+.card-midia-icone { position: relative; z-index: 1; width: 42%; height: auto; margin-bottom: 14%; color: var(--gelo); opacity: .55; filter: drop-shadow(0 0 14px rgba(47, 155, 255, .9)); }
+.card-exp-piscina .card-midia { background-size: 260% auto; background-position: 50% 99%; }
+.card-exp-esportes .card-midia { background-size: 300% auto; background-position: 100% 30%; }
+.card-exp-lazer .card-midia { background-size: 330% auto; background-position: 0% 28%; }
+.card-exp-resenha .card-midia img { object-position: 12% 85%; }
+.card-icone {
+  position: relative; z-index: 1; margin-top: -36px; width: 72px; height: 72px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--azul-vivo);
+  background: #061A4D; border: 1.5px solid var(--borda-forte); box-shadow: 0 0 18px rgba(47, 155, 255, .45);
+}
+.card-icone svg { width: 36px; height: 36px; color: #5CB4FF; filter: drop-shadow(0 0 8px rgba(47, 155, 255, .8)); }
+.card-exp h3 { margin-top: 12px; font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.45rem; letter-spacing: 1px; text-transform: uppercase; color: var(--branco); }
+.card-exp p { margin-top: 6px; font-size: .95rem; line-height: 1.45; max-width: 220px; }
+
+/* Lista com ícones (informações e mercado) */
+.lista-icones { list-style: none; display: grid; gap: 18px; margin-bottom: 28px; }
+.lista-icones li { display: flex; align-items: center; gap: 16px; }
+.lista-icones svg { flex-shrink: 0; width: 44px; height: 44px; color: var(--azul-vivo); filter: drop-shadow(0 0 8px rgba(47, 155, 255, .55)); }
+.lista-icones strong { display: block; font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.15rem; letter-spacing: 1px; text-transform: uppercase; color: var(--azul-vivo); line-height: 1.1; }
+.lista-icones span { color: var(--branco); line-height: 1.4; }
+
+/* Informações do evento */
+.informacoes { overflow: hidden; }
+.informacoes::after {
+  /* palmeiras e gelo da lateral direita da arte oficial, por trás da composição */
+  content: ''; position: absolute; inset: 0 0 0 42%; z-index: 0; pointer-events: none;
+  background: var(--arte) 100% 12% / 230% auto no-repeat; opacity: .7;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%);
+  mask-image: linear-gradient(90deg, transparent, #000 40%);
+}
+.info-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 40px; align-items: center; }
+.pincel-sub { margin: 10px 0 30px -10px; font-size: clamp(1.1rem, 1.7vw, 1.4rem); transform: rotate(-3deg); }
+.info-arte { position: relative; display: grid; place-items: center; min-height: 340px; }
+.info-arte-icone { position: absolute; right: 2%; bottom: 0; width: min(260px, 60%); height: auto; color: var(--azul-claro); opacity: .2; filter: drop-shadow(0 0 16px rgba(47, 155, 255, .6)); }
+.pincel-citacao { font-size: clamp(1.15rem, 1.9vw, 1.6rem); transform: rotate(-9deg); text-align: center; }
+.info-arte .coroa-solta { position: absolute; left: 58%; bottom: 14%; }
+
+/* O mercado dos stakeholders */
+.mercado-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .95fr) minmax(0, .7fr); gap: clamp(24px, 3vw, 44px); align-items: center; }
+.mercado-coluna .lista-icones { margin-bottom: 0; }
+.mercado-centro { text-align: center; display: grid; justify-items: center; gap: 10px; }
+.mercado-centro .coroa-solta { margin: -6px 0 0 40%; }
+.mercado-aviso { max-width: 300px; color: var(--branco); font-weight: 600; }
+.mercado-letrinha { font-size: .78rem; color: var(--texto-suave); }
+.mercado-painel {
+  position: relative; display: grid; gap: 14px; justify-items: center; text-align: center; text-decoration: none;
+  padding: 26px 20px; border: 1px solid var(--borda-forte); border-radius: 10px; overflow: hidden;
+  background: linear-gradient(160deg, rgba(10, 40, 120, .55), rgba(3, 10, 32, .9));
+  box-shadow: 0 0 26px rgba(30, 91, 255, .25); transition: border-color .25s, box-shadow .25s;
+}
+.mercado-painel:hover { border-color: var(--gelo); box-shadow: 0 0 34px rgba(47, 155, 255, .4); }
+.mercado-grafico { width: 100%; height: auto; }
+.grafico-grade { stroke: rgba(191, 230, 255, .12); stroke-width: 1; fill: none; }
+.grafico-area { fill: rgba(47, 155, 255, .16); }
+.grafico-linha { stroke: var(--azul-vivo); stroke-width: 3; fill: none; stroke-linejoin: round; filter: drop-shadow(0 0 6px rgba(47, 155, 255, .8)); }
+.mercado-painel .manuscrito { font-size: 1.35rem; transform: rotate(-5deg); }
+.mercado-painel-link { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; color: var(--gelo); font-weight: 600; }
+
+/* Os lotes */
+.lotes-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, .8fr); gap: clamp(16px, 2.2vw, 28px); align-items: stretch; }
+.card-lote {
+  display: flex; gap: 18px; padding: 26px 24px; border: 1px solid var(--borda-forte); border-radius: 10px;
+  background: linear-gradient(160deg, rgba(8, 28, 84, .75), rgba(3, 10, 32, .92));
+  box-shadow: 0 0 20px rgba(30, 91, 255, .15);
+}
+.card-lote > div { display: flex; flex-direction: column; align-items: flex-start; }
+.card-lote .btn { margin-top: auto; }
+.card-lote-icone { flex-shrink: 0; color: var(--azul-vivo); filter: drop-shadow(0 0 8px rgba(47, 155, 255, .55)); }
+.card-lote-ordem { font-family: var(--fonte-titulo); font-weight: 800; text-transform: uppercase; color: var(--branco); font-size: 1.05rem; letter-spacing: 1px; line-height: 1; }
+.card-lote h3 { font-family: var(--fonte-titulo); font-weight: 800; text-transform: uppercase; color: var(--branco); font-size: clamp(1.4rem, 2vw, 1.75rem); line-height: 1.05; letter-spacing: .5px; }
+.card-lote p:not(.card-lote-ordem) { margin: 10px 0 18px; font-size: .95rem; line-height: 1.45; }
+.lotes-oportunidade {
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px 14px; padding: 24px 22px;
+  border: 1px solid var(--borda-forte); border-radius: 10px; color: var(--azul-vivo);
+  background: linear-gradient(150deg, rgba(47, 123, 255, .22), rgba(3, 10, 32, .7));
+  box-shadow: 0 0 30px rgba(47, 123, 255, .3), inset 0 0 30px rgba(191, 230, 255, .06);
+  transform: perspective(900px) rotateY(-10deg) rotate(1.5deg);
+}
+.lotes-oportunidade svg { filter: drop-shadow(0 0 10px rgba(47, 155, 255, .7)); }
+.lotes-oportunidade-titulo { font-family: var(--fonte-titulo); font-weight: 800; text-transform: uppercase; font-size: 1.3rem; line-height: 1.05; color: var(--azul-vivo); }
+.lotes-oportunidade .manuscrito { grid-column: 1 / -1; justify-self: center; font-size: clamp(1.3rem, 1.9vw, 1.6rem); text-align: center; margin-top: 6px; }
+
+/* A contagem começou */
+.contagem { overflow: hidden; background: linear-gradient(180deg, rgba(4, 18, 60, .88), rgba(3, 10, 32, .9)); }
+.contagem-gelo {
+  /* blocos de gelo nas laterais: recorte da base da arte oficial */
+  position: absolute; inset: 0; pointer-events: none;
+  background: var(--arte) 50% 100% / 100% auto no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, #000 0 10%, transparent 26% 74%, #000 90%);
+  mask-image: linear-gradient(90deg, #000 0 10%, transparent 26% 74%, #000 90%);
+}
+.contagem-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 32px; align-items: center; }
+.contagem-caixas { display: grid; grid-template-columns: repeat(4, minmax(0, 150px)); gap: clamp(10px, 1.6vw, 20px); }
+.contagem-caixa {
+  display: grid; justify-items: center; padding: 20px 6px 16px; border-radius: 10px;
+  border: 1px solid var(--borda-forte); background: rgba(2, 8, 26, .85);
+  box-shadow: 0 0 18px rgba(30, 91, 255, .25), inset 0 0 18px rgba(47, 123, 255, .08);
+}
+.contagem-num { font-family: var(--fonte-titulo); font-weight: 800; font-size: clamp(2.6rem, 4.8vw, 4.1rem); line-height: 1; color: var(--branco); font-variant-numeric: tabular-nums; }
+.contagem-rotulo { margin-top: 6px; font-family: var(--fonte-titulo); font-weight: 700; font-size: .85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--texto); }
+.contagem-encerrada .contagem-caixa { opacity: .6; }
+.contagem-assinatura { display: grid; justify-items: center; text-align: center; gap: 4px; }
+.contagem-data { font-size: clamp(1.1rem, 1.6vw, 1.4rem); transform: rotate(-6deg); margin-bottom: 18px; }
+
+/* Assinatura "MAGNATAS ON ICE" em pincel (contagem e chamada final) */
+.assinatura {
+  display: grid; justify-items: center; transform: rotate(-7deg) skewX(-6deg);
+  font-family: var(--fonte-titulo); font-style: italic; font-weight: 800; text-transform: uppercase;
+  line-height: .9; font-size: clamp(2.2rem, 3.6vw, 3.2rem); color: var(--branco);
+  /* brilho por filtro: text-shadow apareceria através do texto recortado pelo gradiente */
+  filter: drop-shadow(3px 4px 0 #1446D6) drop-shadow(0 0 14px rgba(47, 155, 255, .85));
+}
+.assinatura span {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E4F6FF 40%, #8FD0FF 75%, #4A98FF 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .08em; /* evita cortar a última letra itálica */
+}
+.assinatura span + span { margin-left: .6em; }
+
+/* Dúvidas frequentes */
+.faq-lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px clamp(16px, 2.4vw, 32px); align-items: start; }
+.faq-item { border: 1px solid var(--borda); border-radius: 6px; background: rgba(4, 14, 44, .8); transition: border-color .2s; }
+.faq-item[open] { border-color: var(--borda-forte); box-shadow: 0 0 16px rgba(30, 91, 255, .18); }
+.faq-item summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 52px; padding: 12px 18px; cursor: pointer; list-style: none;
+  font-weight: 600; color: var(--branco); font-size: .98rem;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  /* indicador + / − */
+  content: ''; flex-shrink: 0; width: 14px; height: 14px;
+  background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat,
+              linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat;
+  transition: transform .25s, background-size .25s;
+}
+.faq-item[open] summary::after { transform: rotate(180deg); background-size: 100% 2px, 2px 0; }
+.faq-item summary:hover { color: var(--gelo); }
+.faq-item p { padding: 0 18px 16px; font-size: .95rem; }
+.faq-item p a { color: var(--gelo); font-weight: 600; text-underline-offset: 3px; }
+.contato-duvidas {
+  margin-top: 28px; padding: 16px 20px; border: 1px solid var(--borda); border-radius: 8px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px;
+  background: rgba(4, 14, 44, .6);
+}
+
+/* Chamada final */
+.final {
+  position: relative; overflow: hidden; isolation: isolate;
+  display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.2fr) minmax(0, .9fr); align-items: center;
+  gap: 24px; padding: 40px clamp(20px, 5vw, 72px) 0; min-height: 360px;
+  border-top: 1px solid var(--borda-forte);
+  background: linear-gradient(180deg, rgba(10, 40, 130, .55), rgba(3, 10, 32, .65));
+}
+.final::before {
+  /* respingos e gelo: recorte da base da arte oficial */
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: var(--arte) 50% 100% / 100% auto no-repeat; opacity: .9;
+}
+.final-mascote { align-self: end; justify-self: start; width: min(340px, 100%); }
+.final-centro { text-align: center; padding-bottom: 40px; }
+.final .assinatura { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+.final-frase { margin-top: 20px; font-size: clamp(1.15rem, 1.8vw, 1.6rem); transform: rotate(-6deg); }
+.final-marca { display: grid; justify-items: center; gap: 16px; padding-bottom: 40px; text-align: center; }
+.final-logo, .rodape-marca {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--fonte-titulo); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--branco); font-size: 1.2rem;
+}
+.final-logo em, .rodape-marca em { font-style: normal; color: var(--azul-vivo); }
+.redes { list-style: none; display: flex; gap: 12px; }
+.redes a {
+  display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%;
+  border: 1.5px solid var(--borda-forte); color: var(--branco); background: rgba(4, 14, 44, .7);
+  box-shadow: 0 0 12px rgba(47, 123, 255, .3); transition: border-color .2s, color .2s;
+}
+.redes a:hover { border-color: var(--gelo); color: var(--gelo); }
+.final-juntos { color: var(--azul-vivo); font-size: 1.2rem; transform: rotate(-6deg); }
+
+/* Rodapé */
+.rodape { padding: 22px 0; background: rgba(1, 4, 14, .94); border-top: 1px solid var(--borda); }
+.rodape-grid { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; }
+.rodape-marca { font-size: 1rem; }
+.rodape-marca img { width: 36px; height: 36px; }
+.rodape-frase { color: var(--texto); font-size: .92rem; }
+.rodape-copy { margin-left: auto; font-size: .82rem; color: var(--texto-suave); }
+.rodape-copy a { color: var(--texto); text-underline-offset: 3px; display: inline-block; padding: 12px 0; margin: -12px 0; }
+
+/* Barra fixa — só no celular; js/main.js adiciona .visivel no trecho certo da página */
+.barra-acao { display: none; }
+
+/* ── Responsivo ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  /* laterais do hero descem para baixo do título */
+  .hero-palco {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "mascote mascote" "centro centro" "dados roupa";
+    row-gap: 28px;
+  }
+  .hero-slogan { display: none; }
+  .hero-dados { align-self: center; }
+  .hero-roupa { align-self: center; margin: 0; }
+  .mercado-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .mercado-painel { grid-column: 1 / -1; grid-template-columns: minmax(0, 220px) auto; align-items: center; justify-content: center; text-align: left; }
+  .mercado-painel .mercado-painel-link { grid-column: 2; }
+  .lotes-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .lotes-oportunidade { grid-column: 1 / -1; transform: none; justify-self: center; width: min(520px, 100%); }
+  .contagem-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .contagem-caixas { justify-content: center; }
+}
+
+@media (max-width: 900px) {
+  :root { --topbar-h: 60px; --barra-h: 76px; }
+  .topbar-cta { display: none; }
+  .menu-toggle { display: flex; }
+  .nav {
+    position: fixed; top: var(--topbar-h); left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    padding: 8px 24px 24px;
+    background: rgba(2, 4, 14, .97); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--borda);
+    transform: translateY(-110%); visibility: hidden;
+    transition: transform .3s ease, visibility .3s;
+    max-height: calc(100vh - var(--topbar-h)); overflow-y: auto;
+  }
+  .nav.aberto { transform: none; visibility: visible; }
+  .nav a { padding: 14px 0; min-height: 48px; font-size: 1rem; border-bottom: 1px solid var(--borda); }
+  .nav a::after { display: none; }
+  .nav .nav-extra { display: block; }
+
+  .hero { padding-bottom: 36px; justify-content: flex-start; }
+  .hero-palco { --m: min(74vw, 330px, max(150px, (100svh - 470px) * 1.05)); row-gap: 26px; }
+  .hero-centro { margin-top: calc(var(--m) * -.3); }
+  .hero-titulo { width: min(100%, 520px); }
+
+  .capitulo-grid { grid-template-columns: 1fr; }
+  .capitulo-fotos { max-width: 480px; }
+  .cards-experiencia { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .info-grid { grid-template-columns: 1fr; gap: 12px; }
+  .informacoes::after { inset: 45% 0 0 0; -webkit-mask-image: linear-gradient(180deg, transparent, #000 40%); mask-image: linear-gradient(180deg, transparent, #000 40%); }
+  .info-arte { min-height: 260px; }
+  .mercado-grid { grid-template-columns: 1fr; }
+  .faq-lista { grid-template-columns: 1fr; }
+  .final { grid-template-columns: 1fr; justify-items: center; padding-top: 48px; text-align: center; }
+  .final-centro, .final-marca { padding-bottom: 0; }
+  .final-marca { padding-bottom: 32px; }
+  .final-mascote { order: 3; justify-self: center; width: min(260px, 70vw); }
+  .rodape-grid { flex-direction: column; text-align: center; }
+  .rodape-copy { margin-left: 0; }
+  .rodape { padding-bottom: calc(22px + var(--barra-h)); }
+
+  .barra-acao {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    min-height: var(--barra-h); padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: rgba(2, 4, 14, .92); backdrop-filter: blur(14px);
+    border-top: 1px solid var(--borda);
+    /* oculta = fora da tela, fora da ordem de tabulação e da árvore de acessibilidade */
+    visibility: hidden; transform: translateY(100%);
+    transition: transform .3s ease, visibility 0s linear .3s;
+  }
+  .barra-acao.visivel { visibility: visible; transform: none; transition: transform .3s ease, visibility 0s; }
+  .barra-texto { font-family: var(--fonte-titulo); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--branco); font-size: 1rem; }
+  .barra-texto em { color: var(--gelo); }
+}
+
+@media (max-width: 560px) {
+  .container { width: calc(100% - 40px); }
+  .brand-text { font-size: 1rem; letter-spacing: 1px; }
+  .brand img { width: 34px; height: 34px; }
+  .hero-palco { grid-template-columns: 1fr; grid-template-areas: "tag" "mascote" "centro" "dados" "roupa"; }
+  /* no celular estreito a faixa ganha linha própria, acima do mascote, para não cobrir a arte */
+  .hero-tag { grid-area: tag; justify-self: center; margin: 0 0 calc(var(--m) * -.12); transform: rotate(-4deg); font-size: .85rem; }
+  .hero-dados { justify-self: center; }
+  .hero-roupa { justify-self: center; display: none; }
+  .hero-acoes .btn { width: 100%; }
+  .cards-experiencia { gap: 12px; }
+  .card-exp { padding: 0 12px 20px; }
+  .card-midia { width: calc(100% + 24px); margin: 0 -12px; }
+  .card-exp h3 { font-size: 1.25rem; }
+  .card-exp p { font-size: .88rem; }
+  .lotes-grid { grid-template-columns: 1fr; }
+  .card-lote { padding: 22px 18px; }
+  .card-lote .btn { width: 100%; }
+  .contagem-caixas { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; }
+  .contagem-num { font-size: 2.3rem; }
+  .contagem-rotulo { font-size: .75rem; letter-spacing: 1px; }
+  .contato-duvidas .btn { width: 100%; }
+  .barra-texto { font-size: .9rem; }
+}
+
+@media (max-width: 380px) {
+  .cards-experiencia { grid-template-columns: 1fr; }
+}
+
+/* Telas baixas na horizontal (celular deitado): mascote à esquerda, título e botão à direita.
+   Se mudar a largura do mascote aqui, ajuste também o "sizes" da imagem no index.html. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero { justify-content: center; padding-bottom: 20px; }
+  .hero-palco {
+    --m: calc((100svh - var(--topbar-h) - 36px) * 1178 / 1335);
+    grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "mascote centro" "dados dados";
+    row-gap: 22px;
+  }
+  .hero-slogan, .hero-roupa, .hero-tag { display: none; }
+  .hero-centro { margin-top: 0; }
+  .hero-titulo { width: min(100%, 36vw, 75svh); }
+  .hero-texto { margin-top: 10px; font-size: .95rem; }
+  .hero-acoes { margin-top: 14px; }
+  .hero-acoes .btn { width: auto; }
+  .hero-dados { grid-auto-flow: column; justify-self: center; gap: 32px; }
+}
+
+/* ── Movimento reduzido ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+  .neve { display: none; }
+  /* sem deslocamento do fundo durante a rolagem */
+  body::before { transform: translate3d(-50%, 0, 0); will-change: auto; }
+}

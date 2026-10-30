@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 90" preserveAspectRatio="none">
+  <!-- Pincelada azul das frases de destaque (fundo decorativo, sem texto) -->
+  <defs>
+    <linearGradient id="p" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3D8BFF"/>
+      <stop offset=".55" stop-color="#1E62FF"/>
+      <stop offset="1" stop-color="#1446D6"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#p)" d="M6 22 L30 14 L58 18 L84 9 L118 15 L150 7 L186 13 L214 6 L252 12 L286 5 L318 11 L350 6 L380 12 L396 9 L392 24 L399 38 L390 50 L398 63 L388 74 L362 79 L330 75 L298 83 L262 77 L228 85 L192 78 L158 84 L124 77 L92 82 L60 75 L32 80 L10 72 L16 60 L3 48 L12 36 Z"/>
+  <path fill="#7FB8FF" opacity=".28" d="M22 30 L380 22 L384 27 L24 36 Z M30 58 L372 52 L370 57 L34 63 Z"/>
+  <path fill="#0B2E9E" opacity=".35" d="M40 44 L360 40 L358 44 L42 48 Z"/>
+</svg>

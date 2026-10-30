@@ -1,0 +1,257 @@
+{
+  "original": "efeitos-gelo-agua-magnatas-on-ice.png.png (1024x682)",
+  "elementos": [
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/cristal-medio-01.png",
+      "largura": 112,
+      "altura": 106,
+      "bytes": 17354,
+      "origem": {
+        "x": 369,
+        "y": 218,
+        "largura": 112,
+        "altura": 106
+      },
+      "componentes": 2
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/cristal-medio-02.png",
+      "largura": 104,
+      "altura": 90,
+      "bytes": 14225,
+      "origem": {
+        "x": 77,
+        "y": 513,
+        "largura": 104,
+        "altura": 90
+      },
+      "componentes": 1
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/cristal-medio-03.png",
+      "largura": 86,
+      "altura": 72,
+      "bytes": 9548,
+      "origem": {
+        "x": 13,
+        "y": 562,
+        "largura": 86,
+        "altura": 72
+      },
+      "componentes": 2
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/gelo-pontiagudo-01.png",
+      "largura": 84,
+      "altura": 278,
+      "bytes": 31957,
+      "origem": {
+        "x": 929,
+        "y": 5,
+        "largura": 84,
+        "altura": 278
+      },
+      "componentes": 1
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/gelo-pontiagudo-02.png",
+      "largura": 106,
+      "altura": 107,
+      "bytes": 10693,
+      "origem": {
+        "x": 134,
+        "y": 523,
+        "largura": 106,
+        "altura": 107
+      },
+      "componentes": 3
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/gelo-pontiagudo-03.png",
+      "largura": 63,
+      "altura": 73,
+      "bytes": 5512,
+      "origem": {
+        "x": 859,
+        "y": 166,
+        "largura": 63,
+        "altura": 73
+      },
+      "componentes": 1
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/cristal-grande-01.png",
+      "largura": 164,
+      "altura": 167,
+      "bytes": 46547,
+      "origem": {
+        "x": 770,
+        "y": 35,
+        "largura": 164,
+        "altura": 167
+      },
+      "componentes": 3
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/cristal-grande-02.png",
+      "largura": 152,
+      "altura": 147,
+      "bytes": 36741,
+      "origem": {
+        "x": 358,
+        "y": 334,
+        "largura": 152,
+        "altura": 147
+      },
+      "componentes": 2
+    },
+    {
+      "categoria": "gelo",
+      "arquivo": "gelo/fragmentos-gelo-01.png",
+      "largura": 214,
+      "altura": 205,
+      "bytes": 23445,
+      "origem": {
+        "x": 9,
+        "y": 465,
+        "largura": 214,
+        "altura": 205
+      },
+      "componentes": 9
+    },
+    {
+      "categoria": "explosoes",
+      "arquivo": "explosoes/explosao-gelo-01.png",
+      "largura": 379,
+      "altura": 343,
+      "bytes": 184027,
+      "origem": {
+        "x": 3,
+        "y": 0,
+        "largura": 379,
+        "altura": 343
+      },
+      "componentes": 41
+    },
+    {
+      "categoria": "explosoes",
+      "arquivo": "explosoes/explosao-gelo-02.png",
+      "largura": 283,
+      "altura": 246,
+      "bytes": 89748,
+      "origem": {
+        "x": 493,
+        "y": 313,
+        "largura": 283,
+        "altura": 246
+      },
+      "componentes": 23
+    },
+    {
+      "categoria": "explosoes",
+      "arquivo": "explosoes/explosao-gelo-03.png",
+      "largura": 247,
+      "altura": 182,
+      "bytes": 60687,
+      "origem": {
+        "x": 595,
+        "y": 173,
+        "largura": 247,
+        "altura": 182
+      },
+      "componentes": 18
+    },
+    {
+      "categoria": "explosoes",
+      "arquivo": "explosoes/explosao-gelo-04.png",
+      "largura": 273,
+      "altura": 180,
+      "bytes": 86839,
+      "origem": {
+        "x": 748,
+        "y": 502,
+        "largura": 273,
+        "altura": 180
+      },
+      "componentes": 9
+    },
+    {
+      "categoria": "agua",
+      "arquivo": "agua/onda-congelante-01.png",
+      "largura": 452,
+      "altura": 223,
+      "bytes": 103752,
+      "origem": {
+        "x": 315,
+        "y": 3,
+        "largura": 452,
+        "altura": 223
+      },
+      "componentes": 24
+    },
+    {
+      "categoria": "agua",
+      "arquivo": "agua/onda-congelante-02.png",
+      "largura": 345,
+      "altura": 239,
+      "bytes": 102920,
+      "origem": {
+        "x": 5,
+        "y": 273,
+        "largura": 345,
+        "altura": 239
+      },
+      "componentes": 14
+    },
+    {
+      "categoria": "agua",
+      "arquivo": "agua/onda-congelante-03.png",
+      "largura": 224,
+      "altura": 252,
+      "bytes": 88571,
+      "origem": {
+        "x": 796,
+        "y": 265,
+        "largura": 224,
+        "altura": 252
+      },
+      "componentes": 7
+    },
+    {
+      "categoria": "agua",
+      "arquivo": "agua/respingo-agua-01.png",
+      "largura": 247,
+      "altura": 234,
+      "bytes": 77515,
+      "origem": {
+        "x": 226,
+        "y": 448,
+        "largura": 247,
+        "altura": 234
+      },
+      "componentes": 3
+    },
+    {
+      "categoria": "agua",
+      "arquivo": "agua/respingo-agua-02.png",
+      "largura": 320,
+      "altura": 173,
+      "bytes": 70167,
+      "origem": {
+        "x": 446,
+        "y": 500,
+        "largura": 320,
+        "altura": 173
+      },
+      "componentes": 7
+    }
+  ]
+}
