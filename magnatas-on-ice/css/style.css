@@ -226,7 +226,7 @@ a { color: inherit; }
 /* --m: largura do mascote. Limitada pela largura e pela altura da tela (proporção 1178:1335),
    para o título e o botão aparecerem na primeira tela sem cortar a cabeça. */
 .hero-palco {
-  --m: clamp(240px, min(34vw, (100svh - 620px) * 1.25), 480px);
+  --m: clamp(325px, min(46vw, (100svh - 620px) * 1.7), 640px);
   position: relative; width: min(1320px, 100%); margin-inline: auto;
   display: grid; align-items: center; column-gap: clamp(16px, 2.5vw, 40px);
   grid-template-columns: minmax(0, 1fr) minmax(0, 680px) minmax(0, 1fr);
@@ -297,18 +297,19 @@ a { color: inherit; }
 .capitulo-texto > p.capitulo-destaque { color: var(--azul-vivo); font-weight: 600; }
 .capitulo-texto > p.capitulo-assinatura { margin-top: 48px; color: var(--branco); font-size: clamp(1.35rem, 2.2vw, 1.85rem); transform: rotate(-5deg); transform-origin: left; }
 
-.capitulo-fotos { position: relative; aspect-ratio: 1.15; max-width: 560px; justify-self: center; width: 100%; }
+/* Galeria: 4 fotos reais do local em polaroids inclinadas, numa grade 2x2 desalinhada.
+   As fotos são quadradas (283x283): aspect-ratio 1 mostra cada uma inteira, sem corte nem distorção. */
+.capitulo-fotos { position: relative; aspect-ratio: 1 / 1.04; max-width: 560px; justify-self: center; width: 100%; }
 .polaroid {
-  position: absolute; background: #F4F8FF; padding: 9px 9px 9px; box-shadow: 0 18px 40px rgba(0, 0, 0, .55), 0 0 24px rgba(47, 123, 255, .2);
+  position: absolute; width: 46%; margin: 0; background: #F4F8FF; padding: 2.2% 2.2% 6%;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .55), 0 0 0 1px rgba(79, 160, 255, .35), 0 0 26px rgba(47, 123, 255, .35);
 }
-.polaroid img { width: 100%; height: 100%; object-fit: cover; filter: brightness(1.55) saturate(1.2); }
-.polaroid-1 { left: 2%; top: 4%; width: 74%; aspect-ratio: 1.45; transform: rotate(-4deg); }
-.polaroid-1 img { object-position: 30% 30%; }
-.polaroid-2 { left: 8%; bottom: 3%; width: 44%; aspect-ratio: 1.25; transform: rotate(3deg); background: #F4F8FF; }
-.polaroid-2 img { object-fit: contain; background: radial-gradient(circle, #123B9B, #04103A 75%); padding: 6%; }
-.polaroid-3 { right: 0; bottom: 0; width: 44%; aspect-ratio: .95; transform: rotate(5deg); }
-.polaroid-3 img { object-fit: contain; padding: 8%; background: var(--arte) 50% 100% / 320% auto no-repeat, #04103A; filter: none; }
-.capitulo-selo { position: absolute; right: 0; top: 0; font-size: clamp(1.1rem, 1.6vw, 1.45rem); text-align: center; }
+.polaroid img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.polaroid-1 { left: 1%; top: 2%; transform: rotate(-5deg); z-index: 1; }
+.polaroid-2 { right: 2%; top: 14%; transform: rotate(4deg); z-index: 2; }
+.polaroid-3 { left: 5%; bottom: 3%; transform: rotate(3deg); z-index: 3; }
+.polaroid-4 { right: 0; bottom: 0; transform: rotate(-3deg); z-index: 4; }
+.capitulo-selo { position: absolute; right: 2%; top: -2%; z-index: 5; font-size: clamp(1.1rem, 1.6vw, 1.45rem); text-align: center; }
 .capitulo-selo svg { display: block; margin: 6px auto 0; color: var(--gelo); }
 
 /* A experiência */
@@ -557,7 +558,7 @@ a { color: inherit; }
   .nav .nav-extra { display: block; }
 
   .hero { padding-bottom: 36px; justify-content: flex-start; }
-  .hero-palco { --m: min(74vw, 330px, max(150px, (100svh - 470px) * 1.05)); row-gap: 26px; }
+  .hero-palco { --m: min(98vw, 440px, max(200px, (100svh - 470px) * 1.4)); row-gap: 26px; }
   .hero-centro { margin-top: calc(var(--m) * -.3); }
   .hero-titulo { width: min(100%, 520px); }
 
@@ -596,12 +597,18 @@ a { color: inherit; }
   .container { width: calc(100% - 40px); }
   .brand-text { font-size: 1rem; letter-spacing: 1px; }
   .brand img { width: 34px; height: 34px; }
-  .hero-palco { grid-template-columns: 1fr; grid-template-areas: "tag" "mascote" "centro" "dados" "roupa"; }
+  /* minmax(0, 1fr): o mascote pode ocupar as margens laterais sem alargar a coluna do texto */
+  .hero-palco { grid-template-columns: minmax(0, 1fr); grid-template-areas: "tag" "mascote" "centro" "dados" "roupa"; }
   /* no celular estreito a faixa ganha linha própria, acima do mascote, para não cobrir a arte */
   .hero-tag { grid-area: tag; justify-self: center; margin: 0 0 calc(var(--m) * -.12); transform: rotate(-4deg); font-size: .85rem; }
   .hero-dados { justify-self: center; }
   .hero-roupa { justify-self: center; display: none; }
   .hero-acoes .btn { width: 100%; }
+  /* galeria: fotos maiores (≈51% da largura) e selo acima delas, sem cobrir nenhuma foto */
+  .capitulo-fotos { aspect-ratio: 1 / 1.2; margin-top: 70px; }
+  .polaroid { width: 51%; padding: 7px 7px 22px; }
+  .polaroid-2 { top: 9%; }
+  .capitulo-selo { top: -66px; right: 4%; }
   .cards-experiencia { gap: 12px; }
   .card-exp { padding: 0 12px 20px; }
   .card-midia { width: calc(100% + 24px); margin: 0 -12px; }
