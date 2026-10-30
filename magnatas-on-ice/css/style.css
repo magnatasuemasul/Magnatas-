@@ -526,15 +526,30 @@ a { color: inherit; }
   background: url("../img/pinceladas/pincelada-horizontal.webp") 0 50% / 100% 100% no-repeat;
 }
 .hero-tag > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
+/* "Anota aí, stakeholder!": pincelada azul com respingos (img/pinceladas/pincelada-respingos.*).
+   A arte é ajustada à faixa de uma linha; o miolo denso da tinta (a ponta com respingos fica à
+   direita) é alinhado ao texto, e +6° deixa o eixo da tinta paralelo à frase (-3°). */
+/* margem esquerda positiva: a tinta não passa da borda da seção em nenhuma largura */
+.pincel-sub { position: relative; background: none; margin: 30px 0 36px 8px; }
+.pincel-sub::before {
+  content: ""; position: absolute; inset: -56% -19% -52% -9%; z-index: -1; pointer-events: none;
+  transform: rotate(6deg);
+  background: url("../img/pinceladas/pincelada-respingos.webp") center / 100% 100% no-repeat;
+}
+.pincel-sub > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
 /* A. horizontal também na frase de "Informações do evento": a tinta acompanha o bloco de texto
    (os respingos saem à direita, fora da área do texto) */
-.info-arte .pincel-citacao { position: relative; background: none; padding: .6em 1.3em .7em; }
+.info-arte .pincel-citacao { position: relative; background: none; padding: .55em 1.1em .6em; font-size: clamp(1.05rem, 1.7vw, 1.45rem); }
+.info-arte .pincel-citacao > span { line-height: 1.14; }
 .info-arte .pincel-citacao::before {
-  /* área útil (miolo da tinta) centrada no texto: a ponta afinada e os respingos ficam à direita, fora das letras;
-     +3° compensa a leve subida da arte e deixa o eixo da tinta paralelo às linhas */
-  content: ""; position: absolute; inset: -27% -37% -21% -8%; z-index: -1; pointer-events: none;
-  transform: rotate(3deg);
-  background: url("../img/pinceladas/pincelada-horizontal.webp") 0 50% / 100% 100% no-repeat;
+  /* tinta dimensionada pela altura do bloco de 5 linhas, levemente compactada no sentido do traço
+     (2,3:1 em vez de 3,1:1, como na versão anterior) para envolver o texto sem se alongar pela seção.
+     O miolo mais largo da pincelada (a ponta afinada e os respingos ficam à direita) é alinhado
+     ao centro do texto; +3° deixa o eixo da tinta paralelo às linhas. Só a tinta é escalada, não as letras. */
+  content: ""; position: absolute; left: 50%; top: 50%; z-index: -1; pointer-events: none;
+  height: 152%; aspect-ratio: 2.3;
+  transform: translate(-35%, -50%) rotate(3deg);
+  background: url("../img/pinceladas/pincelada-horizontal.webp") center / 100% 100% no-repeat;
 }
 .info-arte .pincel-citacao > span { position: relative; text-shadow: 0 2px 6px rgba(0, 12, 60, .55); }
 /* B. diagonal: chamada do "Mercado dos stakeholders". A tinta é girada (+24°) para ficar paralela
@@ -675,6 +690,11 @@ a { color: inherit; }
   .contagem-rotulo { font-size: .75rem; letter-spacing: 1px; }
   .contato-duvidas .btn { width: 100%; }
   .barra-logo { width: 92px; }
+  /* frase de Informações no celular: fonte um pouco menor para a tinta caber na largura da tela
+     sem passar das bordas */
+  .info-arte .pincel-citacao { font-size: .95rem; }
+  .info-arte .pincel-citacao::before { height: 140%; transform: translate(-36%, -50%) rotate(3deg); }
+  .pincel-sub::before { inset: -58% -12% -50% -5%; }
   /* explosão um pouco menor no celular */
   .contagem-assinatura::before { width: 115%; opacity: .45; }
 }
