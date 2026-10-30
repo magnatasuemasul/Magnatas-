@@ -540,7 +540,8 @@ a { color: inherit; }
 /* A. horizontal também na frase de "Informações do evento": a tinta acompanha o bloco de texto
    (os respingos saem à direita, fora da área do texto) */
 .info-arte .pincel-citacao { position: relative; background: none; padding: .55em 1.1em .6em; font-size: clamp(1.05rem, 1.7vw, 1.45rem); }
-.info-arte .pincel-citacao > span { line-height: 1.14; }
+/* top: sobe só o texto dentro da tinta (o ::before da pincelada fica no <p> e não se move) */
+.info-arte .pincel-citacao > span { line-height: 1.14; top: -10px; }
 .info-arte .pincel-citacao::before {
   /* tinta dimensionada pela altura do bloco de 5 linhas, levemente compactada no sentido do traço
      (2,3:1 em vez de 3,1:1, como na versão anterior) para envolver o texto sem se alongar pela seção.
@@ -693,6 +694,7 @@ a { color: inherit; }
   /* frase de Informações no celular: fonte um pouco menor para a tinta caber na largura da tela
      sem passar das bordas */
   .info-arte .pincel-citacao { font-size: .95rem; }
+  .info-arte .pincel-citacao > span { top: -7px; }
   .info-arte .pincel-citacao::before { height: 140%; transform: translate(-36%, -50%) rotate(3deg); }
   .pincel-sub::before { inset: -58% -12% -50% -5%; }
   /* explosão um pouco menor no celular */
