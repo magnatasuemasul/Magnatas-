@@ -7,7 +7,9 @@ Site estático (HTML, CSS e JS puros, sem build), publicado na Vercel a partir d
 
 ```
 /
-├── index.html              ← landing page ATIVA (o que aparece em /)
+├── index.html              ← landing page ATIVA (o que aparece em /): Magnatas on Ice
+├── magnatas-on-ice/        ← recursos da landing ativa (css/, js/, img/, fonts/)
+│   └── index.html          ← só redireciona /magnatas-on-ice/ (links antigos) para /
 ├── site-institucional/     ← Site Institucional arquivado, completo e independente
 │   ├── index.html
 │   ├── imagem-02.jpg
@@ -16,12 +18,13 @@ Site estático (HTML, CSS e JS puros, sem build), publicado na Vercel a partir d
 ├── campanhas/              ← (futuro) landing pages antigas arquivadas, uma pasta por campanha
 ├── magnatas_hero.html      ← versão antiga do Site Institucional (mantida, usa os arquivos da raiz)
 ├── script.js               ← arquivo legado, não usado pelas páginas
-└── *.png / *.jpg / *.mp4   ← recursos da raiz usados pelo index.html atual e pelo magnatas_hero.html
+└── *.png / *.jpg / *.mp4   ← recursos da raiz usados pelo magnatas_hero.html
 ```
 
 | Endereço | Conteúdo |
 |---|---|
-| `/` | Landing page ativa (hoje ainda é o Site Institucional) |
+| `/` | Landing page ativa: Magnatas on Ice |
+| `/magnatas-on-ice/` | Redireciona para `/` |
 | `/site-institucional/` | Site Institucional, sempre disponível |
 
 > **Atenção:** todo push na `main` é publicado automaticamente em produção pela Vercel.
@@ -57,7 +60,8 @@ Site estático (HTML, CSS e JS puros, sem build), publicado na Vercel a partir d
 ## Como restaurar o Site Institucional como página principal
 
 - **Pelo Git (recomendado):** recupere o `index.html` de um commit anterior com
-  `git restore --source=<commit> index.html` e confira os recursos que ele usa.
+  `git restore --source=<commit> index.html` e confira os recursos que ele usa
+  (o último commit com o Site Institucional na raiz é o `2e117b2`).
 - **Pela pasta arquivada:** copie o conteúdo de `site-institucional/` para a raiz e remova do `index.html`
   copiado o script da barra final (na raiz ele não é necessário).
 

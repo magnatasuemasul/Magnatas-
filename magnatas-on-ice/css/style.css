@@ -1,17 +1,17 @@
 /* ═══════════════════════════════════════════════════════════
    Magnatas on Ice — landing page do evento
-   Todos os recursos usam caminhos absolutos em /magnatas-on-ice/
+   Caminhos relativos a esta pasta (css/), para funcionar na raiz do site e aberto direto no navegador
    ═══════════════════════════════════════════════════════════ */
 
 /* ── Fontes (Barlow, SIL OFL — ver fonts/OFL.txt) ──────────
    Subconjunto latin do Google Fonts, só os pesos usados.
    font-display: swap evita texto invisível enquanto carregam. */
-@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-700.woff2') format('woff2'); }
-@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 800; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-800.woff2') format('woff2'); }
-@font-face { font-family: 'Barlow Condensed'; font-style: italic; font-weight: 800; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-800-italic.woff2') format('woff2'); }
-@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 900; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-condensed-900.woff2') format('woff2'); }
-@font-face { font-family: 'Barlow'; font-style: normal; font-weight: 400; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-400.woff2') format('woff2'); }
-@font-face { font-family: 'Barlow'; font-style: normal; font-weight: 600; font-display: swap; src: url('/magnatas-on-ice/fonts/barlow-600.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 700; font-display: swap; src: url('../fonts/barlow-condensed-700.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 800; font-display: swap; src: url('../fonts/barlow-condensed-800.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: italic; font-weight: 800; font-display: swap; src: url('../fonts/barlow-condensed-800-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-style: normal; font-weight: 900; font-display: swap; src: url('../fonts/barlow-condensed-900.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/barlow-400.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow'; font-style: normal; font-weight: 600; font-display: swap; src: url('../fonts/barlow-600.woff2') format('woff2'); }
 
 :root {
   --azul: #1E5BFF;
@@ -34,8 +34,8 @@
   --barra-h: 0px;
   --fundo-arte: #011230;       /* base amostrada da região central escura do fundo oficial */
   --fundo-largura: 100vw;
-  --pincel: url('/magnatas-on-ice/img/pincelada.svg');
-  --arte: url('/magnatas-on-ice/img/fundo-magnatas-on-ice.webp');  /* mesmo arquivo do fundo global */
+  --pincel: url('../img/pincelada.svg');
+  --arte: url('../img/fundo-magnatas-on-ice.webp');  /* mesmo arquivo do fundo global */
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
